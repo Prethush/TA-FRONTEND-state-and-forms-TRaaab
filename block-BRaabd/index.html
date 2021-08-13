@@ -19,26 +19,25 @@
             constructor(props){
                 super(props);
                 this.state = {
-                    url: "assets/default.jpeg"
+                    active: "basketball"
                 }
+                this.names = ["basketball", "pubg", "tiger", "phone", "laptop", "cricket"];
             }
 
-            displayImage = (newUrl) => {
+            displayImage = (event,name) => {
+                event.target.classList.add("active");
                 this.setState({
-                    url: newUrl
+                    active: name
                 })
             }
             render() {
                 return(
                     <>
-                        <button onClick={() => this.displayImage("assets/basketball.jpg")}>Basketball</button>
-                        <button onClick={() => this.displayImage("assets/pubg.jpeg")}>PubG</button>
-                        <button onClick={() => this.displayImage("assets/tiger.jpg")}>Tiger</button>
-                        <button onClick={() => this.displayImage("assets/phone.jpg")}>Phone</button>
-                        <button onClick={() => this.displayImage("assets/laptop.jpg")}>Laptop</button>
-                        <button onClick={() => this.displayImage("assets/cricket.jpg")}>Cricket</button>
+                        {
+                            this.names.map((name, i) => <button className = {this.state.active === name ? "active": "" } onClick={(e) => this.displayImage(e, name)} key={i}>{name}</button>)
+                        }
                         <div>
-                            <img src={this.state.url} alt="img" />
+                            <img src={`assets/${this.state.active}.jpg`} alt={this.state.active} />
                         </div>
                     </>
                 )
