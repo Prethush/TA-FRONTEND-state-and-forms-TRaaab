@@ -18,9 +18,11 @@ button {
     font-weight: 700;
 }
 
-button:hover{
-    background-color: rgb(106, 106, 175);
-}
+
 div {
     margin-top: 3rem;
+}
+
+.active {
+    background-color: red;
 }
