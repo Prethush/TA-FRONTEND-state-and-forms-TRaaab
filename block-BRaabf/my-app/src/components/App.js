@@ -6,20 +6,22 @@ class App extends React.Component {
         super(props);
         this.state = {
             counter: 0,
-            steps: 1,
-            max: Infinity
+            steps: 5,
+            max: 15
         }
     }
 
     handleIncrement = () => {
+        let {counter, steps, max} = this.state;
         this.setState({
-            counter: this.state.counter > this.state.max ? this.state.max : this.state.steps + this.state.counter > this.state.max ? this.state.counter : this.state.steps + this.state.counter 
+            counter: counter + steps > max ? counter : counter + steps
         });
     }
     
     handleDecrement = () => {
+        let {counter, steps, max} = this.state;
         this.setState({
-            counter: this.state.counter > this.state.max ? this.state.max - this.state.steps : this.state.counter - this.state.steps
+            counter: counter - steps
         })
     }
     handleReset = () => {
