@@ -28,7 +28,8 @@ class Main extends React.Component {
 
     handleSelect = (index) => {
         this.setState({
-            selectedIndex: index
+            selectedIndex: index,
+            modalClose: false
         })
         
     }
@@ -53,11 +54,19 @@ class Main extends React.Component {
                     ))
                 }
                 </section>
+                <section className={this.state.selectedIndex && !this.state.modalClose ?  "w-custom bg-blue-300 top-16 fixed left-52 p-8 overflow-scroll bottom-12 rounded-lg": "hidden"}>
+                <div className="flex justify-end">
+                             <button className="bg-blue-500 p-2 rounded-lg text-white font-bold" onClick={() => this.setState({
+                    selectedIndex: null,
+                    modalClose: true
+                })}>Close</button>
+                 </div>
                 {   
                     
                     this.state.selectedIndex ? < Modal {...datas[this.state.selectedIndex]}  state={false}/> : ""
+                    
                 }
-                
+                 </section>
             </>
         )
     }

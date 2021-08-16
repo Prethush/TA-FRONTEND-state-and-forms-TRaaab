@@ -5,25 +5,18 @@ class Modal extends React.Component {
     constructor(props) {
         
         super();
-        this.state = {
-            close: props.state
-        }
+        
     }
 
     
     render() {
       
-       console.log(this.state.close);
-     console.log(this.props.state);
     
        let movie = this.props;
         return (
-         <section className={!this.state.close ? "w-custom bg-blue-300 top-16 fixed left-52 p-8 overflow-scroll bottom-12 rounded-lg": "hidden"}>
-             <div className="flex justify-end">
-                <button className="bg-blue-500 p-2 rounded-lg text-white font-bold" onClick={() => this.setState({
-                    close: true
-                })}>Close</button>
-             </div>
+        
+             
+            <>
              <h2 className="text-xl font-bold">Title: {movie.Title}</h2>
              <h2 className="text-xl font-bold">Released Year: {movie.Released}</h2>
              <div className="text-xl font-bold">
@@ -47,7 +40,8 @@ class Modal extends React.Component {
                      ))       
                  }
              </div>
-         </section>
+             </>
+        
         )
     }
 }
