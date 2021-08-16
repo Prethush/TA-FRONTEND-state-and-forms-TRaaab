@@ -8,7 +8,8 @@ class Main extends React.Component {
         super();
         this.state = {
             activeIndex: null,
-            selectedIndex: null
+            selectedIndex: null,
+            modalClose: false
         }
     }
 
@@ -32,7 +33,6 @@ class Main extends React.Component {
         
     }
     render() {
-        
        
         return (
             <>
@@ -53,7 +53,10 @@ class Main extends React.Component {
                     ))
                 }
                 </section>
-                
+                {   
+                    
+                    this.state.selectedIndex ? < Modal {...datas[this.state.selectedIndex]}  state={false}/> : ""
+                }
                 
             </>
         )
