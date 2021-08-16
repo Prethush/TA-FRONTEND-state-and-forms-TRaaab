@@ -6,8 +6,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
-            index: null
+           activeIndex: null
         }
     }
     render() {
@@ -17,15 +16,14 @@ class App extends React.Component {
                     data.map((value, i) => (
                         <div key={i} className="bg-red-300 my-6">
                             
-                                <h2 className={this.state.open && this.state.index === i ? "bg-green-400": "bg-red-400"}>{value.Q}<i onClick={() => {
+                                <h2 className={this.state.activeIndex === i ? "bg-green-400": "bg-red-400"}>{value.Q}<i onClick={() => {
                                     this.setState({
-                                        open: !this.state.open,
-                                        index: i
+                                       activeIndex: this.state.activeIndex === i ? null : i
                                     })
-                                }} className={this.state.open && this.state.index === i ? "fas fa-hand-point-up": "fas fa-hand-point-down"}></i></h2>
+                                }} className={this.state.activeIndex === i ? "fas fa-hand-point-up": "fas fa-hand-point-down"}></i></h2>
                             
                            
-                            <p className={this.state.open && this.state.index === i? "visible" : "hidden"}>{value.A}</p>
+                            <p className={this.state.activeIndex === i? "visible" : "hidden"}>{value.A}</p>
                         </div>
                     ))
                 }
