@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+   background-color: lightblue;
+}
+
+a {
+    border-radius: .3rem;
+    color: #272727;
+    border: 1px solid #272727;
+    font-weight: 700;
+    padding: .3rem .5rem;
+    background-color: white;
+}
+

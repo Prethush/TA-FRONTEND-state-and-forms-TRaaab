@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    color: #272727;
+}
+h2 {
+    position: relative;
+    padding: 10px 20px;
+    font-size: 32px;
+    border: 1px solid black;
+}
+
+i {
+    position: absolute;
+    right: 10px;
+    top: 1rem;
+}
+
+p {
+    padding: 10px 20px;
+    font-size: 1.3rem;
+    border: 1px solid #272727;
+}
