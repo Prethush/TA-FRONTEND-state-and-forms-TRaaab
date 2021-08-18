@@ -111,7 +111,7 @@ class Main extends React.Component {
                         <div className="flex justify-between text-center my-4">
                             {
                                 steps.map((data, i) => (
-                                    <span className={currentStep === i +1 ? "step active": currentStep < i + 1 ? "step": "bg-green-400 step"}>{data}</span>
+                                    <span className={currentStep === i +1 ? "step active": currentStep < i + 1 ? "step": "bg-green-400 step text-white"}>{data}</span>
                                 ))
                             }
                         </div>
