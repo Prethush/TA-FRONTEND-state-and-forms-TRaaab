@@ -31,7 +31,7 @@ class Step1 extends React.Component {
                     <div className="flex-50 flex flex-col">
                         <label htmlFor="email">Email Address</label>
                         <input  className={!email ? "form-control p-2 rounded-lg my-2 border-2 border-gray-300": "border-2 border-red-500 p-2 rounded-lg my-2 outline-none"} id="email" type="email" name="email" value={this.props.email} placeholder="Enter Email" onChange={this.props.handleChange}/>
-                        <span>{email}</span>
+                        <span className="text-red-500">{email}</span>
                     </div>
                     
                 </div>
