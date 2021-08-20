@@ -13,7 +13,7 @@ class Cart extends React.Component {
                    <h4 className="text-white ml-4 text-xl font-bold">Cart</h4>
                    <div className="w-4 h-4 rounded-full bg-yellow-500 text-black absolute text-center text-xs bottom-12 left-52">{this.props.cart.length}</div>
                </div>
-               <article className="px-6 h-vertical overflow-y-scroll">
+               <article className="px-6 h-vertical overflow-y-scroll scroll-bar">
                     {
                         cart.map(c => (
                            <>
@@ -39,14 +39,15 @@ class Cart extends React.Component {
                                 
                            </>
                         ))
-                    }   
+                    }
+                <h4 className="text-white text-center">{cart.length ? "": "The cart is Empty"}</h4>   
                </article>
                 <div className="fixed bg-custom w-custom bottom-0 z-10 p-4 shadow-custom">
                     <div className="flex justify-between my-2">
                         <h5 className="uppercase text-gray-500">Subtotal</h5>
                         <h5 className="text-yellow-300 text-2xl">$ {cart.length ? this.props.total.toFixed(2): "0.00"}</h5>
                     </div>   
-                    <button className="uppercase bg-black text-white w-full my-6 px-3 py-3 hover:bg-gray-700" onClick={() => {cart.length ? alert(`subtotal: $ ${this.props.total.toFixed(2)}`) : alert(`No items in the cart`)}}>Checkout</button>     
+                    <button className="uppercase bg-black text-white w-full my-6 px-3 py-3 hover:bg-button" onClick={() => {cart.length ? alert(`subtotal: $ ${this.props.total.toFixed(2)}`) : alert(`No items in the cart`)}}>Checkout</button>     
                 </div>
             </section>
         )

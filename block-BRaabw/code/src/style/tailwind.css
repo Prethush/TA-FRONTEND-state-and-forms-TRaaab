@@ -45,3 +45,7 @@
         top: 0;
     }
 }
+
+.scroll-bar {
+    scrollbar-base-color: rgb(44, 43, 43);
+}

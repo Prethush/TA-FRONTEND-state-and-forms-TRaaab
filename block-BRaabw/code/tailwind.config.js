@@ -15,7 +15,8 @@ module.exports = {
         vertical: "70vh"
       },
       colors: {
-        custom: "rgb(27,26,32)"
+        custom: "rgb(27,26,32)",
+        button: "rgb(44, 43, 43)"
       },
       width: {
         custom: "24vw"
