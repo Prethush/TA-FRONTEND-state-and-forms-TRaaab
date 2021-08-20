@@ -3,15 +3,51 @@ import '../style/style.css';
 
 class Cart extends React.Component {
     render(){
-        console.log(this.props);
+       let cart = this.props.cart;
+       
         return (
-            <section className={this.props.cartOpen === "" ? "hidden": this.props.cartOpen ? "cartOpen": "cartClose"}>
+            <section className={this.props.cartOpen === "" ? "hidden": this.props.cartOpen ? "cartOpen relative": "cartClose relative"}>
                <span className="absolute py-3 px-5 text-white -left-12 text-xl bg-custom cursor-pointer" onClick={this.props.handleCartClose}>x</span>
                <div className="py-12 flex items-center justify-center relative">
                    <img src="/static/bag-icon.png" alt="cartBasket" className="h-10 w-10 object-cover"/>
                    <h4 className="text-white ml-4 text-xl font-bold">Cart</h4>
-                   <div className="w-4 h-4 rounded-full bg-yellow-500 text-black absolute text-center text-xs bottom-10 left-44">{this.props.cart.length}</div>
+                   <div className="w-4 h-4 rounded-full bg-yellow-500 text-black absolute text-center text-xs bottom-12 left-52">{this.props.cart.length}</div>
                </div>
+               <article className="px-6">
+                    {
+                        cart.map(c => (
+                           <>
+                                <hr className="border-.5 border-black" key={c.product.id}></hr>
+                                <div className="flex mb-8 justify-between my-4">
+                                        <div  className="flex-10">
+                                            <img src={c.product.imgSmall} alt={c.product.title} className="h-24 object-cover"/>
+                                        </div>
+                                        <div className="flex flex-col justify-center flex-70 p-2">
+                                            <h4 className="text-white">{c.product.title}</h4>
+                                            <h5 className="text-gray-500">Quantity: {c.quantity}</h5>
+                                        </div>
+                                        <div className="flex-10 text-center">
+                                            <span><i className="fas fa-times cursor-pointer hover:text-white" id={c.product.id} onClick={this.props.removeItem}></i></span>
+                                            <h4 className="my-2 text-yellow-300 text-lg">${c.product.price.toFixed(2)}</h4>
+                                            <div className="flex justify-center">
+                                                <button className={c.quantity > 1 ? "cursor-pointer bg-black w-6 text-white" : "w-6 bg-gray-700 cursor-auto"} id={c.product.id} onClick={this.props.reduceItem}>-</button>
+                                                <button id={c.product.id} className="bg-black cursor-pointer w-6 text-white" onClick={(e) => this.props.handleAddCart(e, c.product)}>+</button>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                
+                           </>
+                        ))
+                    }   
+               </article>
+                <div className="fixed bg-custom w-custom bottom-0 z-10 p-4 shadow-custom">
+                    <div className="flex justify-between my-2">
+                        <h5 className="uppercase text-gray-500">Subtotal</h5>
+                        <h5 className="text-yellow-300 text-2xl">$ {cart.length ? this.props.total.toFixed(2): "0.00"}</h5>
+                    </div>   
+                    <button className="uppercase bg-black text-white w-full my-6 px-3 py-4 hover:bg-gray-700">Checkout</button>     
+                </div>
             </section>
         )
     }

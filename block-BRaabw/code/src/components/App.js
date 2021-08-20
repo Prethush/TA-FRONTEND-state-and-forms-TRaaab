@@ -4,14 +4,16 @@ import Products from "./Products";
 import datas from "../data.json";
 import Cart from "./Cart";
 
+
 class App extends React.Component {
     constructor(props) {
         super();
         this.state = {
             filterSize: [],
-            filterPrice: "",
+            filterPrice: "select",
             cartOpen: "",
-            cart: []
+            cart: [],
+            total: 0
         }
     }
 
@@ -35,10 +37,8 @@ class App extends React.Component {
     getAllProducts = () => {
         let allProducts, arr = [];
         let filterSize = this.state.filterSize;
-        
-
         if(!filterSize.length){
-            allProducts = datas.products;
+            allProducts = [...datas.products];
         }else {
             for(let i = 0; i < filterSize.length; i++){
                 let elm = datas.products.filter(data => data.availableSizes.includes(filterSize[i]));
@@ -64,20 +64,76 @@ class App extends React.Component {
         this.setState({cartOpen: false});
     }
 
+    getTotal = () => {
+        let cart = this.state.cart;
+        let total = cart.reduce((acc, curr) => {
+            acc += curr.product.price * curr.quantity;
+            return acc;
+        }, 0)
+        return total;
+    }
+    //Add items to cart
+
+    handleAddCart = (e, addProduct) => {
+       
+        let cart = this.state.cart;
+        let {id} = e.target;
+        if(!cart.length){
+            cart.push({
+                product: addProduct,
+                quantity: 1
+            })
+          ;
+            
+        }else {
+            let item = cart.findIndex(c => c.product.id === Number(id));
+            if(item === -1){
+                cart.push({
+                    product: addProduct,
+                    quantity: 1
+                })
+            }else {
+               cart[item].quantity += 1;   
+            }
+        }
+        
+        
+        this.setState({cart, cartOpen: true, total: this.getTotal()});
+    }
+
+    reduceItem = (event) => {
+        let {id} = event.target;
+        let cart = this.state.cart;
+        let item = cart.findIndex(c => c.product.id === Number(id));
+        cart[item].quantity = cart[item].quantity > 1 ? cart[item].quantity -= 1 : cart[item].quantity;
+        console.log(cart[item]);
+         this.setState({cart, total: this.getTotal()});
+
+    }
+
+    removeItem = ({target}) => {
+        let {id} = target;
+        let cart = this.state.cart;
+        let item = cart.findIndex(c => c.product.id === id);
+        cart.splice(item, 1);
+        this.setState({cart, total: this.getTotal()});
+    }
+
     render() {
         let filterSize = this.state.filterSize;
         let filterPrice = this.state.filterPrice;
         let cart = this.state.cart;
 
         let allProducts = this.getAllProducts();
-                if(filterPrice === "highest-to-low"){
-            console.log("Hai");
+        if(filterPrice === "high"){
             allProducts = allProducts.sort((a, b) => b.price - a.price);
-        }
-        if(filterPrice === "lowest-to-high" || filterPrice === ""){
+        }else if(filterPrice === "low"){
             allProducts = allProducts.sort((a, b) => a.price - b.price);
+        }else {
+            allProducts = allProducts.sort((a, b) => a.id - b.id);
         }
-
+        
+       
         let allSizes = datas.products.reduce((acc, curr) => acc.concat(curr.availableSizes), []);
         let everySize = allSizes.reduce((acc, curr) => {
             if(!acc.includes(curr)){
@@ -108,13 +164,13 @@ class App extends React.Component {
                     </div>
 
                     <article className="flex-80">
-                            < Products allProducts = {allProducts} filterByPrice = {this.filterByPrice} {...this.state}/>
+                            < Products allProducts = {allProducts} filterByPrice = {this.filterByPrice} {...this.state} handleAddCart = {this.handleAddCart}/>
                     </article>
                    
               </section>
             
                {
-                    < Cart {...this.state} handleCartOpen = {this.handleCartOpen} handleCartClose = {this.handleCartClose}/>
+                    < Cart {...this.state} handleCartOpen = {this.handleCartOpen} handleCartClose = {this.handleCartClose} handleAddCart = {this.handleAddCart} reduceItem = {this.reduceItem} removeItem = {this.removeItem}/>
                }
               
            </main>

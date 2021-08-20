@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .cartClose {
-    width: 22vw;
+    width: 24vw;
     position: fixed;
     min-height: 100vh;
     display: block;
@@ -20,13 +20,13 @@
     }
     to {
         top: 0;
-        right: -25vw;
+        right: -28vw;
     }
 }
 
 .cartOpen {
     position: fixed;
-    width: 22vw;
+    width: 24vw;
     min-height: 100vh;
     background-color: rgb(27,26,32);
     display: block;
@@ -37,7 +37,7 @@
 
 @keyframes cartOpen {
     from {
-        right: -25vw;
+        right: -28vw;
         top: 0;
     }
     to {
