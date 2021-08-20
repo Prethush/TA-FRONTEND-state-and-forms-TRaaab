@@ -11,7 +11,8 @@ module.exports = {
       },
 
       height: {
-        custom: "25rem"
+        custom: "25rem",
+        vertical: "70vh"
       },
       colors: {
         custom: "rgb(27,26,32)"
