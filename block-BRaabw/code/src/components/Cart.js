@@ -6,20 +6,20 @@ class Cart extends React.Component {
        let cart = this.props.cart;
        
         return (
-            <section className={this.props.cartOpen === "" ? "hidden": this.props.cartOpen ? "cartOpen relative": "cartClose relative"}>
+            <section className={this.props.cartOpen === "" ? "hidden": this.props.cartOpen ? "cartOpen relative": "cartClose relative "}>
                <span className="absolute py-3 px-5 text-white -left-12 text-xl bg-custom cursor-pointer" onClick={this.props.handleCartClose}>x</span>
                <div className="py-12 flex items-center justify-center relative">
                    <img src="/static/bag-icon.png" alt="cartBasket" className="h-10 w-10 object-cover"/>
                    <h4 className="text-white ml-4 text-xl font-bold">Cart</h4>
                    <div className="w-4 h-4 rounded-full bg-yellow-500 text-black absolute text-center text-xs bottom-12 left-52">{this.props.cart.length}</div>
                </div>
-               <article className="px-6">
+               <article className="px-6 h-vertical overflow-y-scroll">
                     {
                         cart.map(c => (
                            <>
                                 <hr className="border-.5 border-black" key={c.product.id}></hr>
                                 <div className="flex mb-8 justify-between my-4">
-                                        <div  className="flex-10">
+                                        <div  className="flex-10"> 
                                             <img src={c.product.imgSmall} alt={c.product.title} className="h-24 object-cover"/>
                                         </div>
                                         <div className="flex flex-col justify-center flex-70 p-2">
@@ -46,7 +46,7 @@ class Cart extends React.Component {
                         <h5 className="uppercase text-gray-500">Subtotal</h5>
                         <h5 className="text-yellow-300 text-2xl">$ {cart.length ? this.props.total.toFixed(2): "0.00"}</h5>
                     </div>   
-                    <button className="uppercase bg-black text-white w-full my-6 px-3 py-4 hover:bg-gray-700">Checkout</button>     
+                    <button className="uppercase bg-black text-white w-full my-6 px-3 py-3 hover:bg-gray-700" onClick={() => {cart.length ? alert(`subtotal: $ ${this.props.total.toFixed(2)}`) : alert(`No items in the cart`)}}>Checkout</button>     
                 </div>
             </section>
         )

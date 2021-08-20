@@ -114,7 +114,8 @@ class App extends React.Component {
     removeItem = ({target}) => {
         let {id} = target;
         let cart = this.state.cart;
-        let item = cart.findIndex(c => c.product.id === id);
+        let item = cart.findIndex(c => c.product.id === Number(id));
+       
         cart.splice(item, 1);
         this.setState({cart, total: this.getTotal()});
     }
