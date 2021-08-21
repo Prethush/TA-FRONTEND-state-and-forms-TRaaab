@@ -12,9 +12,20 @@ class App extends React.Component {
             filterSize: [],
             filterPrice: "select",
             cartOpen: "",
-            cart: [],
-            total: 0
+            cart: []
         }
+       
+    }
+
+    componentDidMount() {
+        if(localStorage.carts){
+            this.setState({cart: JSON.parse(localStorage.carts) || []});
+        }
+        window.addEventListener("beforeunload", this.handleUpdateLocalStorage);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.handleUpdateLocalStorage);
     }
 
     //filter by price 
@@ -37,16 +48,18 @@ class App extends React.Component {
        
     }
 
-   
+   //cart open
 
     handleCartOpen = ({target}) => {
        this.setState({cartOpen: true})
     }
 
+    //cart close
     handleCartClose = () => {
         this.setState({cartOpen: false});
     }
 
+    //get total
     getTotal = () => {
         let cart = this.state.cart;
         let total = cart.reduce((acc, curr) => {
@@ -79,9 +92,7 @@ class App extends React.Component {
                cart[item].quantity += 1;   
             }
         }
-        
-        
-        this.setState({cart, cartOpen: true, total: this.getTotal()});
+        this.setState({cart, cartOpen: true})
     }
 
     reduceItem = (event) => {
@@ -90,29 +101,34 @@ class App extends React.Component {
         let item = cart.findIndex(c => c.product.id === Number(id));
         cart[item].quantity = cart[item].quantity > 1 ? cart[item].quantity -= 1 : cart[item].quantity;
         console.log(cart[item]);
-         this.setState({cart, total: this.getTotal()});
+         this.setState({cart})
 
     }
 
     removeItem = ({target}) => {
         let {id} = target;
-        let cart = this.state.cart;
+        let cart = [...this.state.cart];
         let item = cart.findIndex(c => c.product.id === Number(id));
-       
         cart.splice(item, 1);
-        this.setState({cart, total: this.getTotal()});
+        this.setState({cart})
+       
+    }
+
+    //handle local storage
+    handleUpdateLocalStorage = () => {
+        localStorage.setItem("carts", JSON.stringify(this.state.cart, "total", this.state.total));
     }
 
     render() {
        
         let cart = this.state.cart;
-      
+        let totalQuantity = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
         return (
            <main className="relative px-72 py-20">
                <div className="w-16 h-16 bg-black fixed right-0 top-0 flex justify-center items-center cursor-pointer" onClick={this.handleCartOpen}>
                    <img src="/static/bag-icon.png" alt="cart"/>
-                   <div className="w-4 h-4 rounded-full bg-yellow-500 text-black absolute text-center right-2 bottom-3 text-xs">{cart.length}</div>
+                   <div className="w-4 h-4 rounded-full bg-yellow-500 text-black absolute text-center right-2 bottom-3 text-xs">{totalQuantity}</div>
                </div>
                {/* Sizes */}
               <section className="flex justify-between">
@@ -124,7 +140,7 @@ class App extends React.Component {
               </section>
             
                {
-                    < Cart {...this.state} handleCartOpen = {this.handleCartOpen} handleCartClose = {this.handleCartClose} handleAddCart = {this.handleAddCart} reduceItem = {this.reduceItem} removeItem = {this.removeItem}/>
+                    < Cart {...this.state} handleCartOpen = {this.handleCartOpen} handleCartClose = {this.handleCartClose} handleAddCart = {this.handleAddCart} reduceItem = {this.reduceItem} removeItem = {this.removeItem} totalQuantity={totalQuantity} total={this.getTotal()}/>
                }
               
            </main>
