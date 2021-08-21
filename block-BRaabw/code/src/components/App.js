@@ -3,7 +3,7 @@ import '../style/style.css';
 import Products from "./Products";
 import datas from "../data.json";
 import Cart from "./Cart";
-
+import Aside from "./Aside";
 
 class App extends React.Component {
     constructor(props) {
@@ -17,44 +17,27 @@ class App extends React.Component {
         }
     }
 
+    //filter by price 
+
     filterByPrice = ({target}) => {
         let {name, value} = target;
         this.setState({[name]: value});
     }
 
+    //filter by size
+
     filterBySize = ({target}) => {
         let {id} = target; 
         let filterSize = this.state.filterSize;
-        if(!filterSize.includes(id)){
-            filterSize.push(id);
-        }else{
-            let index = filterSize.indexOf(id);
-            filterSize.splice(index, 1);
+        if(filterSize.includes(id)){
+            this.setState((prevState) => ({filterSize: prevState.filterSize.filter(s => s !== id)}))
+        }else {
+            this.setState((prevState) => ({filterSize: prevState.filterSize.concat(id)}));
         }
-        this.setState({filterSize});
+       
     }
 
-    getAllProducts = () => {
-        let allProducts, arr = [];
-        let filterSize = this.state.filterSize;
-        if(!filterSize.length){
-            allProducts = [...datas.products];
-        }else {
-            for(let i = 0; i < filterSize.length; i++){
-                let elm = datas.products.filter(data => data.availableSizes.includes(filterSize[i]));
-                arr.push(elm);
-            }
-            arr = arr.flat(Infinity);
-            allProducts = arr.reduce((acc, curr) => {
-              if(!acc.includes(curr)) {
-                  acc.push(curr);
-              }
-              return acc;
-          }, [])
-        }
- 
-        return allProducts;
-    }
+   
 
     handleCartOpen = ({target}) => {
        this.setState({cartOpen: true})
@@ -121,27 +104,9 @@ class App extends React.Component {
     }
 
     render() {
-        let filterSize = this.state.filterSize;
-        let filterPrice = this.state.filterPrice;
-        let cart = this.state.cart;
-
-        let allProducts = this.getAllProducts();
-        if(filterPrice === "high"){
-            allProducts = allProducts.sort((a, b) => b.price - a.price);
-        }else if(filterPrice === "low"){
-            allProducts = allProducts.sort((a, b) => a.price - b.price);
-        }else {
-            allProducts = allProducts.sort((a, b) => a.id - b.id);
-        }
-        
        
-        let allSizes = datas.products.reduce((acc, curr) => acc.concat(curr.availableSizes), []);
-        let everySize = allSizes.reduce((acc, curr) => {
-            if(!acc.includes(curr)){
-                acc.push(curr);
-            }
-            return acc;
-        }, []);
+        let cart = this.state.cart;
+      
 
         return (
            <main className="relative px-72 py-20">
@@ -151,21 +116,9 @@ class App extends React.Component {
                </div>
                {/* Sizes */}
               <section className="flex justify-between">
-                    <div className="flex-10">
-                            <h3 className="my-2 text-xl font-bold">Sizes:</h3>
-                            <div className="flex flex-wrap">
-                                {
-                                    everySize.map(size => (
-                                        <div key={size} id={size} className={filterSize.includes(size) ? "flex justify-center items-center w-10 h-10 rounded-full bg-black text-white mr-1 mb-2 cursor-pointer text-sm" : "flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 mr-1 mb-2 cursor-pointer border-2 hover:border-black text-sm"} onClick={this.filterBySize}> 
-                                           {size}
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                    </div>
-
+                    < Aside products = {datas.products} filterBySize={this.filterBySize} {...this.state}/>
                     <article className="flex-80">
-                            < Products allProducts = {allProducts} filterByPrice = {this.filterByPrice} {...this.state} handleAddCart = {this.handleAddCart}/>
+                            < Products data = {datas.products} filterByPrice = {this.filterByPrice} {...this.state} handleAddCart = {this.handleAddCart}/>
                     </article>
                    
               </section>

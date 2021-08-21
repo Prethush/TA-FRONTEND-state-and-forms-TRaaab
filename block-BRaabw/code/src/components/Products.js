@@ -1,34 +1,50 @@
 import React from "react";
+import OrderBy from './OrderBy';
 
 class Products extends React.Component {
     constructor(props){
         super();
-        
     }
 
+    
 
+    //get all products
+
+    getAllProducts = (order, sizes, products) => {
+       let allProducts = [...products];
+      
+       if(sizes.length){
+            allProducts = allProducts.filter((p) => {
+                for(const size of sizes){
+                if(p.availableSizes.includes(size)){
+                    return true;
+                }
+                }
+            });
+       }
+       console.log(allProducts, "allProducts");
+
+       if(order === "high"){
+            allProducts = allProducts.sort((a, b) => b.price - a.price);
+        }else if(order === "low"){
+            allProducts = allProducts.sort((a, b) => a.price - b.price);
+        }else {
+            allProducts = allProducts.sort((a, b) => a.id - b.id);
+    }
+        
+        return allProducts;
+    }
 
     render() {
-        
-        let allProducts = this.props.allProducts;
+       
+        let allProducts = this.getAllProducts(this.props.filterPrice, this.props.filterSize, this.props.data);
         
         return (
             <>
                 
             {/* //sorting (Highest to lowest) */}
 
-                <div className="flex justify-between items-center">
-                    <h3 className="text-sm">{allProducts.length} Product(s) found.</h3>
-                    <fieldset>
-                        <label className="text-lg" htmlFor="sort">Order by</label>
-                        <select id="sort" className="p-1 ml-2 bg-white border-2 border-gray-200" name="filterPrice" value={this.props.filterPrice}  onChange={this.props.filterByPrice}>
-                            <option value="select" defaultValue>Select</option>
-                            <option value="high">Highest to Lowest</option>
-                            <option value="low">Lowest to High</option>
-                        </select>
-                        
-                    </fieldset>
-                </div>
+                < OrderBy allProducts = {allProducts} filterPrice = {this.props.filterPrice} filterByPrice={this.props.filterByPrice}/>
                 <article className="flex flex-wrap mt-4">
                     {
                         allProducts.map((product, i)  => (
@@ -43,7 +59,7 @@ class Products extends React.Component {
 
                                <h5 className="text-center mb-4">$<span className="ml-2 text-3xl font-bold">{String(product.price).split(".")[0]}<span className="text-lg font-normal">.{!String(product.price).split(".")[1] ? "00" : String(product.price).split(".")[1].length === 2 ? String(product.price).split(".")[1] : String(product.price).split(".")[1]+"0"}</span></span></h5>
 
-                                <button className="block text-center bg-gray-900 w-full py-3 font-bold text-white" id={product.id} onClick={(e) => {this.props.handleAddCart(e, product)}}>Add to Cart</button>
+                                <button className="block text-center bg-gray-900 w-full py-3 font-bold text-white hover:bg-yellow-400" id={product.id} onClick={(e) => {this.props.handleAddCart(e, product)}}>Add to Cart</button>
 
                                 <span className={product.isFreeShipping ? "bg-black text-white p-1 text-xs absolute right-2 top-3": ""}>{product.isFreeShipping ? "Free Shipping": ""}</span>
                             </div>
