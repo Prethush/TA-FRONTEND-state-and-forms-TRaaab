@@ -27,7 +27,7 @@ class Cart extends React.Component {
                                         </div>
                                         <div className="flex-10 text-center">
                                             <span><i className="fas fa-times cursor-pointer hover:text-white" id={c.product.id} onClick={this.props.removeItem}></i></span>
-                                            <h4 className="my-2 text-yellow-300 text-lg">${c.product.price.toFixed(2)}</h4>
+                                            <h4 className="my-2 text-yellow-300 text-lg">{c.product.currencyFormat +" " +c.product.price.toFixed(2)}</h4>
                                             <div className="flex justify-center">
                                                 <button className={c.quantity > 1 ? "cursor-pointer bg-black w-6 text-white" : "w-6 bg-gray-700 cursor-auto"} id={c.product.id} onClick={this.props.reduceItem}>-</button>
                                                 <button id={c.product.id} className="bg-black cursor-pointer w-6 text-white" onClick={(e) => this.props.handleAddCart(e, c.product)}>+</button>

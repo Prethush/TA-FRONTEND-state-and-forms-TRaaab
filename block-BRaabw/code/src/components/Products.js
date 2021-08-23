@@ -57,7 +57,7 @@ class Products extends React.Component {
                                     <hr className="w-6 h-1 bg-yellow-400"></hr>
                                 </div>
 
-                               <h5 className="text-center mb-4">$<span className="ml-2 text-3xl font-bold">{String(product.price).split(".")[0]}<span className="text-lg font-normal">.{!String(product.price).split(".")[1] ? "00" : String(product.price).split(".")[1].length === 2 ? String(product.price).split(".")[1] : String(product.price).split(".")[1]+"0"}</span></span></h5>
+                               <h5 className="text-center mb-4">{product.currencyFormat}<span className="ml-2 text-3xl font-bold">{String(product.price).split(".")[0]}<span className="text-lg font-normal">.{!String(product.price).split(".")[1] ? "00" : String(product.price).split(".")[1].length === 2 ? String(product.price).split(".")[1] : String(product.price).split(".")[1]+"0"}</span></span></h5>
 
                                 <button className="block text-center bg-gray-900 w-full py-3 font-bold text-white hover:bg-yellow-400" id={product.id} onClick={(e) => {this.props.handleAddCart(e, product)}}>Add to Cart</button>
 
