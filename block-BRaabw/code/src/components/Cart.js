@@ -15,8 +15,8 @@ class Cart extends React.Component {
                <article className="px-6 h-vertical overflow-y-scroll scroll-bar">
                     {
                         cart.map(c => (
-                           <>
-                                <hr className="border-.5 border-black" key={c.product.id}></hr>
+                           <div key={c.product.id}>
+                                <hr className="border-.5 border-black"></hr>
                                 <div className="flex mb-8 justify-between my-4">
                                         <div  className="flex-10"> 
                                             <img src={c.product.imgSmall} alt={c.product.title} className="h-24 object-cover"/>
@@ -36,7 +36,7 @@ class Cart extends React.Component {
                                 </div>
 
                                 
-                           </>
+                           </div>
                         ))
                     }
                 <h4 className="text-white text-center">{cart.length ? "": "The cart is Empty"}</h4>   
